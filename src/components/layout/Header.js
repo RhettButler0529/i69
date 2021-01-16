@@ -1,13 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useReducer, useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import Logo from './partials/Logo';
+import { useTranslation } from "react-i18next";
+import '../../services/localizationService';
 
 const propTypes = {
   navPosition: PropTypes.string,
   hideNav: PropTypes.bool,
   hideSignin: PropTypes.bool,
+  hideSignup: PropTypes.bool,
   bottomOuterDivider: PropTypes.bool,
   bottomDivider: PropTypes.bool
 }
@@ -16,6 +19,7 @@ const defaultProps = {
   navPosition: '',
   hideNav: false,
   hideSignin: false,
+  hideSignup: false,
   bottomOuterDivider: false,
   bottomDivider: false
 }
@@ -25,12 +29,15 @@ const Header = ({
   navPosition,
   hideNav,
   hideSignin,
+  hideSignup,
   bottomOuterDivider,
   bottomDivider,
   ...props
 }) => {
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
 
   const [isActive, setIsactive] = useState(false);
+
 
   const nav = useRef(null);
   const hamburger = useRef(null);
@@ -44,7 +51,13 @@ const Header = ({
       document.removeEventListener('click', clickOutside);
       closeMenu();
     };
-  });  
+  });
+
+  // useLayoutEffect(() => {
+  //   window.addEventListener('click', forceUpdate);
+
+  //   return () => window.removeEventListener('click', forceUpdate);
+  // }, []);
 
   const openMenu = () => {
     document.body.classList.add('off-nav-is-active');
@@ -58,6 +71,21 @@ const Header = ({
     setIsactive(false);
   }
 
+  const logout = () => {
+    document.body.classList.remove('off-nav-is-active');
+    nav.current && (nav.current.style.maxHeight = null);
+    setIsactive(false);
+    localStorage.removeItem('uid')
+    localStorage.removeItem('signup')
+  }
+
+  const profile = () => {
+    document.body.classList.remove('off-nav-is-active');
+    nav.current && (nav.current.style.maxHeight = null);
+    setIsactive(false);
+    
+  }
+
   const keyPress = (e) => {
     isActive && e.keyCode === 27 && closeMenu();
   }
@@ -66,13 +94,19 @@ const Header = ({
     if (!nav.current) return
     if (!isActive || nav.current.contains(e.target) || e.target === hamburger.current) return;
     closeMenu();
-  }  
+  }
 
   const classes = classNames(
     'site-header',
     bottomOuterDivider && 'has-bottom-divider',
     className
   );
+
+  const changeLanguage = (e) => {
+    window.changeLanguage(e.target.dataset.language);
+    window.addEventListener('click', forceUpdate);
+
+  }
 
   return (
     <header
@@ -112,7 +146,16 @@ const Header = ({
                       navPosition && `header-nav-${navPosition}`
                     )}>
                     <li>
-                      <Link to="#0" onClick={closeMenu}>Documentation</Link>
+                      <Link to="/" onClick={closeMenu}>Home</Link>
+                    </li>
+                    <li>
+                      <Link to="/faq" onClick={closeMenu}>FAQ</Link>
+                    </li>
+                    <li>
+                      <Link to="/policy" onClick={closeMenu}>Policy</Link>
+                    </li>
+                    <li>
+                      <Link to="/terms" onClick={closeMenu}>Terms</Link>
                     </li>
                   </ul>
                   {!hideSignin &&
@@ -120,9 +163,39 @@ const Header = ({
                       className="list-reset header-nav-right"
                     >
                       <li>
-                        <Link to="#0" className="button button-primary button-wide-mobile button-sm" onClick={closeMenu}>Sign up</Link>
+                        <Link to="/signin" className="button button-secondary button-wide-mobile button-sm" onClick={closeMenu}>Login</Link>
+                      </li>
+                    </ul>
+
+                  }
+                  {
+                    hideSignin && <ul
+                      className="list-reset header-nav-right"
+                    >
+                      <li>
+                        <Link to="/" className="button button-secondary button-wide-mobile button-sm" onClick={
+                          logout
+                        }>Logout</Link>
+                      </li>
+                    </ul>
+                  }{
+                    hideSignin && <ul
+                      className="list-reset header-nav-right"
+                    >
+                      <li>
+                        <Link to="/profile" className="button button-secondary button-wide-mobile button-sm">Profile</Link>
+                      </li>
+                    </ul>
+                  }
+                  {!hideSignup &&
+                    <ul
+                      className="list-reset header-nav-right"
+                    >
+                      <li>
+                        <Link to="/signup" className="button button-primary button-wide-mobile button-sm" onClick={closeMenu}>Sign up</Link>
                       </li>
                     </ul>}
+
                 </div>
               </nav>
             </>}

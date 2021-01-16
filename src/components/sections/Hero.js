@@ -1,112 +1,186 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { SectionProps } from '../../utils/SectionProps';
-import ButtonGroup from '../elements/ButtonGroup';
-import Button from '../elements/Button';
-import Image from '../elements/Image';
-import Modal from '../elements/Modal';
+import Carousel from 'react-material-ui-carousel'
+import { Button, Grid } from '@material-ui/core'
+import TextTransition, { presets } from "react-text-transition";
+import background1 from "../../assets/images/slider3.jpg"
+import background2 from "../../assets/images/slider2.jpg"
+import background3 from "../../assets/images/slider4.jpg"
+import background4 from "../../assets/images/slider1.jpg"
+import background5 from "../../assets/images/i69-dating.png"
 
-const propTypes = {
-  ...SectionProps.types
-}
-
-const defaultProps = {
-  ...SectionProps.defaults
-}
-
-const Hero = ({
-  className,
-  topOuterDivider,
-  bottomOuterDivider,
-  topDivider,
-  bottomDivider,
-  hasBgColor,
-  invertColor,
-  ...props
-}) => {
-
-  const [videoModalActive, setVideomodalactive] = useState(false);
-
-  const openModal = (e) => {
-    e.preventDefault();
-    setVideomodalactive(true);
-  }
-
-  const closeModal = (e) => {
-    e.preventDefault();
-    setVideomodalactive(false);
-  }   
-
-  const outerClasses = classNames(
-    'hero section center-content',
-    topOuterDivider && 'has-top-divider',
-    bottomOuterDivider && 'has-bottom-divider',
-    hasBgColor && 'has-bg-color',
-    invertColor && 'invert-color',
-    className
-  );
-
-  const innerClasses = classNames(
-    'hero-inner section-inner',
-    topDivider && 'has-top-divider',
-    bottomDivider && 'has-bottom-divider'
-  );
-
+function Hero(props) {
   return (
-    <section
-      {...props}
-      className={outerClasses}
+    <Carousel
+      animation={'slide'}
+      interval={2000}
     >
-      <div className="container-sm">
-        <div className={innerClasses}>
-          <div className="hero-content">
-            <h1 className="mt-0 mb-16 reveal-from-bottom" data-reveal-delay="200">
-              Landing template for <span className="text-color-primary">startups</span>
-            </h1>
-            <div className="container-xs">
-              <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400">
-                Our landing page template works on all devices, so you only have to set it up once, and get beautiful results forever.
-                </p>
-              <div className="reveal-from-bottom" data-reveal-delay="600">
-                <ButtonGroup>
-                  <Button tag="a" color="primary" wideMobile href="https://cruip.com/">
-                    Get started
-                    </Button>
-                  <Button tag="a" color="dark" wideMobile href="https://github.com/cruip/open-react-template/">
-                    View on Github
-                    </Button>
-                </ButtonGroup>
+      <div>
+        <div style={{
+          marginTop: 100,
+          backgroundImage: `url(${background1})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: '100% 100%',
+          backgroundAttachment: 'fixed'
+        }}
+
+        >
+          <Grid container spacing={1} direction="row" >
+
+            <Grid item xs={12} sm={8}>
+              <div style={{ backgroundColor: '#caa943bf', marginLeft: 40 }}>
+                <h2>
+                  <TextTransition
+                    text={'SEARCH FOR PEOPLE NEAR BY'}
+                    springConfig={presets.wobbly}
+                    direction={'down'}
+                  /></h2>
+                <h4 style={{ color: 'white', textAlign: 'center' }}>
+                  <TextTransition
+                    text={'Meet and chat with people near by now!'}
+                    springConfig={presets.wobbly}
+                    direction={'up'}
+                  /></h4>
               </div>
-            </div>
-          </div>
-          <div className="hero-figure reveal-from-bottom illustration-element-01" data-reveal-value="20px" data-reveal-delay="800">
-            <a
-              data-video="https://player.vimeo.com/video/174002812"
-              href="#0"
-              aria-controls="video-modal"
-              onClick={openModal}
-            >
-              <Image
-                className="has-shadow"
-                src={require('./../../assets/images/video-placeholder.jpg')}
-                alt="Hero"
-                width={896}
-                height={504} />
-            </a>
-          </div>
-          <Modal
-            id="video-modal"
-            show={videoModalActive}
-            handleClose={closeModal}
-            video="https://player.vimeo.com/video/174002812"
-            videoTag="iframe" />
+
+            </Grid>
+            <Grid item xs={12} sm={4} >
+              <img
+                src={background5}
+                alt="Search for people near by"
+                style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto' }}
+              />
+            </Grid>
+          </Grid>
         </div>
       </div>
-    </section>
-  );
-}
+      <div>
+        <div style={{
+          marginTop: 100,
+          backgroundImage: `url(${background2})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: '100% 100%',
+          backgroundAttachment: 'fixed'
+        }}
 
-Hero.propTypes = propTypes;
-Hero.defaultProps = defaultProps;
+        >
+          <Grid container spacing={1} direction="row" >
+
+            <Grid item xs={12} sm={8}>
+              <div style={{ marginLeft: 40 }}>
+                <h1 style={{ color: '#caa943bf', textAlign: 'center' }}>
+                  <TextTransition
+                    text={'WELCOME TO i69'}
+                    springConfig={presets.wobbly}
+                    direction={'down'}
+                  />
+                </h1>
+                <h4 style={{ color: '#caa943bf', textAlign: 'center' }}>
+                  <TextTransition
+                    text={'BEST FREE DATING APP!'}
+                    springConfig={presets.wobbly}
+                    direction={'up'}
+                  /></h4>
+              </div>
+
+            </Grid>
+            <Grid item xs={12} sm={4} >
+              <img
+                src={background5}
+                alt="Best free dating app"
+                style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto' }}
+              />
+            </Grid>
+          </Grid>
+        </div>
+      </div>
+      <div>
+        <div style={{
+          marginTop: 100,
+          backgroundImage: `url(${background3})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: '100% 100%',
+          backgroundAttachment: 'fixed'
+        }}
+
+        >
+          <Grid container spacing={1} direction="row" >
+
+            <Grid item xs={12} sm={8}>
+              <div style={{ marginLeft: 40 }}>
+                <h2 style={{ color: '#caa943bf', textAlign: 'center' }}>
+                  <TextTransition
+                    text={'ADVANTAGES'}
+                    springConfig={presets.wobbly}
+                    direction={'up'}
+                  />
+                </h2>
+                <h4 style={{ color: '#caa943bf', textAlign: 'center' }}>
+                  <TextTransition
+                    text={'i69 IS the Best dating app ,  FREE app and SAFE  for dating'}
+                    springConfig={presets.wobbly}
+                    direction={'down'}
+                  />
+                </h4>
+              </div>
+
+            </Grid>
+            <Grid item xs={12} sm={4} >
+              <img
+                src={background5}
+                alt='Advantages'
+                style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto' }}
+              />
+            </Grid>
+          </Grid>
+        </div>
+      </div>
+      <div>
+        <div style={{
+          marginTop: 100,
+          backgroundImage: `url(${background4})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: '100% 100%',
+          backgroundAttachment: 'fixed'
+        }}
+
+        >
+          <Grid container spacing={1} direction="row" >
+
+            <Grid item xs={12} sm={8}>
+              <div style={{ marginLeft: 40 }}>
+                <h2 style={{ color: '#caa943bf', textAlign: 'center' }}>
+                  <TextTransition
+                    text={'FAST REGISTRATION'}
+                    springConfig={presets.wobbly}
+                    direction={'up'}
+                  />
+                </h2>
+                <h4 style={{ color: '#caa943bf', textAlign: 'center' }}>
+                  <TextTransition
+                    text={'via social networks'}
+                    springConfig={presets.wobbly}
+                    direction={'down'}
+                  />
+                </h4>
+              </div>
+
+            </Grid>
+            <Grid item xs={12} sm={4} >
+              <img
+                src={background5}
+                alt='Fast Registration'
+                style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto' }}
+              />
+            </Grid>
+          </Grid>
+        </div>
+      </div>
+
+    </Carousel >
+
+  )
+}
 
 export default Hero;
